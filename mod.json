@@ -1,0 +1,66 @@
+{
+	"geode": "5.7.1",
+	"version": "v1.1.1",
+	"gd": {
+		"win": "2.2081",
+		"android": "2.2081",
+		"mac": "2.2081",
+		"ios": "2.2081"
+	},
+	"early-load": true,
+	"id": "itzz.menu",
+	"name": "itzz",
+	"developer": "itzz",
+	"description": "A clean custom Geode mod menu by itzz.",
+	"links": {
+		"source": "https://github.com/itzzzzzzzzz/itzz-menu"
+	},
+	"resources": {
+        "files": [
+            "resources/fonts/kosugimaru/*.fnt",
+			"resources/fonts/kosugimaru/*.png",
+			"resources/fonts/lexend/*.fnt",
+			"resources/fonts/lexend/*.png",
+			"resources/fonts/notosans/*.fnt",
+			"resources/fonts/notosans/*.png",
+			"resources/translations/*.json",
+			"resources/translations/langs/*.json",
+			"resources/files/*.md",
+			"resources/sounds/*.ogg",
+			"resources/sounds/*.wav"
+        ],
+		"sprites": [
+			"resources/sprites/slider/*.png",
+			"resources/sprites/icons/anchors/*.png",
+			"resources/sprites/icons/paint/*.png",
+			"resources/sprites/free/*.png"
+		],
+		"spritesheets": {
+			"qolmod-ui-sheet": [
+				"resources/sprites/buttons/*.png",
+				"resources/sprites/icons/animations/*.png",
+				"resources/sprites/icons/categories/*.png",
+				"resources/sprites/icons/shortcuts/*.png",
+				"resources/sprites/*.png"
+			],
+			"yz-sheet": [
+				"resources/sprites/yz/*.png"
+			]
+		}
+    },
+	"settings": {
+		"open-menu-keybind": {
+			"type": "keybind",
+			"name": "Open Menu Bind",
+			"default": "Tab",
+			"priority": 8008135
+		}
+	},
+	"tags": [
+		"cheat",
+		"gameplay",
+		"utility",
+		"customization",
+		"universal"
+	]
+}
