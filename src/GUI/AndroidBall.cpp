@@ -51,22 +51,33 @@ bool AndroidBall::init()
 }
 
 void AndroidBall::setColonThreeSecret(bool enabled)
-{ 
-    if (auto spr = CCSprite::create(enabled ? "qolmodButtonOverlaycolonthree.png"_spr : "qolmodButtonOverlay.png"_spr))
+{
+    // itzz: Mobile-Button zeigt das Chrome-Logo statt des QOL-Gesichts
+    if (auto spr = CCSprite::create((std::string(GEODE_MOD_ID) + "/itzz-logo.png").c_str()))
     {
         overlay->setTexture(spr->getTexture());
+
+        CCRect rect = CCRectZero;
+        rect.size = spr->getTexture()->getContentSize();
+        overlay->setTextureRect(rect);
+
+        // Logo auf ~72% des Kreisdurchmessers einpassen
+        float bgW = (background && background->getTexture()) ? background->getTexture()->getContentSize().width : rect.size.width;
+        overlayFitScale = (rect.size.width > 0) ? (bgW * 0.72f) / rect.size.width : 1.f;
+        overlay->setScale(scale * overlayFitScale);
+
         colonThreeEnabled = enabled;
     }
     else
     {
         overlay->setTexture(CCSprite::create()->getTexture());
+        overlayFitScale = 1.f;
         missingImportantAssets = true;
+
+        CCRect rect = CCRectZero;
+        rect.size = overlay->getTexture()->getContentSize();
+        overlay->setTextureRect(rect);
     }
-
-    CCRect rect = CCRectZero;
-    rect.size = overlay->getTexture()->getContentSize();
-
-    overlay->setTextureRect(rect);
 }
 
 bool AndroidBall::getColonThreeSecret()
@@ -80,7 +91,7 @@ void AndroidBall::setButtonScale(float scale)
     this->scale = scale;
 
     background->setScale(scale);
-    overlay->setScale(scale);
+    overlay->setScale(scale * overlayFitScale);
 }
 
 void AndroidBall::setSmoothMove(bool smooth)

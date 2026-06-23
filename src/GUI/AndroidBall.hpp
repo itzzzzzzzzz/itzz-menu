@@ -16,6 +16,7 @@ class AndroidBall : public CCNodeRGBA
         CCPoint position = CCPointZero;
 
         float scale = 1.0f;
+        float overlayFitScale = 1.0f; // itzz: Logo in den Button-Kreis einpassen
         float normalOpacity = 0.4f;
         bool smoothMove = true;
         bool missingImportantAssets = false;
