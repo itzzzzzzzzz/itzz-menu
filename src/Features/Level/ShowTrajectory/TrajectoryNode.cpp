@@ -62,6 +62,13 @@ void TrajectoryNode::redraw()
 {
     clear();
 
+    // itzz Autoplay: geplanten Pfad zeichnen (magenta), unabhaengig von Show Trajectory
+    if (apDrawPath && apPath.size() >= 2)
+    {
+        for (size_t i = 1; i < apPath.size(); i++)
+            drawSegment(apPath[i - 1], apPath[i], 1.3f, ccc4f(0.96f, 0.18f, 0.86f, 1.f));
+    }
+
     if (!ShowTrajectory::get()->getRealEnabled())
         return;
 
@@ -215,6 +222,8 @@ void TrajectoryNode::apHold(bool held)
 
 bool TrajectoryNode::apStep()
 {
+    apOrbThisStep = nullptr; // wird im playerTouchedRing-Hook gesetzt, falls ein Orb beruehrt wird
+
     player->m_collisionLogTop->removeAllObjects();
     player->m_collisionLogBottom->removeAllObjects();
     player->m_collisionLogLeft->removeAllObjects();

@@ -187,22 +187,33 @@ class $modify(GJBaseGameLayer)
 
     bool canBeActivatedByPlayer(PlayerObject* p0, EffectGameObject* p1)
     {
-        if (TrajectoryNode::get()->isSimulating())
-        {
+        auto tn = TrajectoryNode::get();
+        // Autoplay-Sim darf Orbs/Pads aktivieren (echte Physik); normale Trajectory-Sim nicht.
+        if (tn && tn->isSimulating() && !tn->isAutoplaySim())
             return false;
-        }
 
         return GJBaseGameLayer::canBeActivatedByPlayer(p0, p1);
     }
 
     void playerTouchedRing(PlayerObject * p0, RingObject * p1)
     {
-        if (TrajectoryNode::get() ? !TrajectoryNode::get()->isSimulating() : true)
-            GJBaseGameLayer::playerTouchedRing(p0, p1);
-        else if (TrajectoryNode::get() && TrajectoryNode::get()->isSimulating())
+        auto tn = TrajectoryNode::get();
+
+        if (!tn || !tn->isSimulating())
         {
-            TrajectoryNode::get()->simulateFromRing(p0, p1);
+            GJBaseGameLayer::playerTouchedRing(p0, p1);
+            return;
         }
+
+        if (tn->isAutoplaySim())
+        {
+            // Orb verfuegbar merken + echte Orb-Physik auf dem Klon ausfuehren
+            tn->apOrbThisStep = p1;
+            GJBaseGameLayer::playerTouchedRing(p0, p1);
+            return;
+        }
+
+        tn->simulateFromRing(p0, p1);
     }
 
     void playerTouchedTrigger(PlayerObject* p0, EffectGameObject* p1)
@@ -248,7 +259,9 @@ class $modify(PlayerObject)
 
     void ringJump(RingObject * p0, bool p1)
     {
-        if (TrajectoryNode::get() && !TrajectoryNode::get()->isSimulating())
+        auto tn = TrajectoryNode::get();
+        // Orb darf auch in der Autoplay-Sim feuern (echte Physik fuer alle Orb-Typen)
+        if (!tn || !tn->isSimulating() || tn->isAutoplaySim())
             PlayerObject::ringJump(p0, p1);
     }
 
