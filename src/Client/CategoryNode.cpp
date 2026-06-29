@@ -1,6 +1,5 @@
 #include "CategoryNode.hpp"
 #include "../Utils/Casts.hpp"
-#include "../GUI/BetterMouseDispatcher.hpp"
 #include "../Utils/Num.hpp"
 #include <ScrollLayer.hpp>
 
